@@ -1,3 +1,5 @@
+"use client"
+
 import { Alert, Button, Typography } from '@mui/material';
 import React from 'react';
 import CheckIcon from '@mui/icons-material/Check';

@@ -1,3 +1,5 @@
+"use client"
+
 import { Alert, Typography } from '@mui/material'
 import React from 'react'
 import WhatshotIcon from '@mui/icons-material/Whatshot';

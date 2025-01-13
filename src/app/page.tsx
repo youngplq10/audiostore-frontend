@@ -4,6 +4,7 @@ import { Button, Typography } from "@mui/material";
 import Header from "./components/Header";
 import Article from "./components/Article";
 import MostTrending from "./components/MostTrending";
+import Category from "./components/Category";
 
 export default function Home() {
   
@@ -12,6 +13,9 @@ export default function Home() {
       <Header />
       <Article />
       <MostTrending />
+      <Category name="Comdy & Humor" />
+      <Category name="Biography" />
+      <Category name="Science & Fiction" />
     </>
   )
 }
