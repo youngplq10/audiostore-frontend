@@ -1,0 +1,10 @@
+@import "./node_modules/bootstrap/scss/bootstrap.scss";
+
+*{
+  font-family: 'Parkinsans', serif;
+}
+@media only screen and (max-width: 599px) {
+  .toolbar-search{
+    width: 150px;
+  }
+}
