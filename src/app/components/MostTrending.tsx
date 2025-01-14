@@ -9,7 +9,7 @@ import RomeoAndJuliet from "../assets/romeo-and-juliet-320.jpg";
 const MostTrending = () => {
     return(
         <>
-            <div className='container-lg pt-5'>
+            <div className='container-lg pt-5 most-trending'>
                 <div className='row'>
                     <div className='col-12 text-center'>
                         <Typography variant='h2'>#Most trending</Typography>

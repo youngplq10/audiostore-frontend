@@ -22,7 +22,7 @@ const Article = () => {
                         </Alert>
                         <Image
                             src={RomeoAndJuliet}
-                            width={350}
+                            width={300}
                             height={400}
                             className="rounded-4"
                             alt="romeo and juliet"
@@ -38,9 +38,9 @@ const Article = () => {
                         </div>
                         <div className="row mt-2">
                             <div className="col-12">
-                                <Typography variant="h2">Echoes of Tomorrow</Typography>
+                                <Typography variant="h2">Romeo & Juliet</Typography>
                                 <Typography variant="body1">
-                                    In a world where memories can be traded like currency, a brilliant but haunted mind-hacker stumbles upon a secret that could alter the future of humanity — or wipe it from existence. As he navigates a dark web of corporate conspiracies and hidden truths, every step pulls him deeper into a labyrinth where trust is scarce, and time itself becomes the ultimate enemy. A gripping fusion of mystery, technology, and the haunting power of forgotten dreams, this story will keep you questioning reality until the very last moment.
+                                A timeless tale of forbidden love and tragic fate, Romeo and Juliet by William Shakespeare follows the passionate romance of two young lovers from feuding families. Set in Verona, this iconic story explores themes of love, destiny, and the devastating consequences of hatred. Experience the enduring power of one of the greatest love stories ever told in this captivating audiobook adaptation.
                                 </Typography>
                             </div>
                         </div>

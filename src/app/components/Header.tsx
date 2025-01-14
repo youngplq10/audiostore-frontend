@@ -6,7 +6,7 @@ import HeadphonesIcon from '@mui/icons-material/Headphones';
 
 const Header = () => {
     return (
-        <header className="container-lg py-4">
+        <header className="container-lg py-4 header">
             <div className="row align-items-center">
                 <div className="col-5">
                     <div style={{ display: 'inline-flex', alignItems: 'center' }}>
