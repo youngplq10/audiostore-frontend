@@ -13,7 +13,7 @@ export default function Home() {
   return (
     <>
       <Header />
-      <Article />
+      <Article homepage={true} />
       <MostTrending />
       <Category name="Comdy & Humor" />
       <Category name="Biography" />

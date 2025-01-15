@@ -7,7 +7,7 @@ import WhatshotIcon from '@mui/icons-material/Whatshot';
 import Image from 'next/image';
 import RomeoAndJuliet from "../assets/romeo-and-juliet-320.jpg";
 
-const Article = () => {
+const Article = ({homepage} : {homepage: boolean}) => {
     return (
         <>
             <article className="container-lg py-5">
@@ -31,9 +31,15 @@ const Article = () => {
                     <div className="col-10 col-lg-6 bd-dark mt-2">
                         <div className="row d-none d-lg-flex mb-2">
                             <div className="col-auto">
-                                <Alert icon={<WhatshotIcon fontSize="inherit" />} severity="info">
+                                { homepage ? (
+                                    <Alert icon={<WhatshotIcon fontSize="inherit" />} severity="info">
                                     Top 1
                                 </Alert>
+                                ) : (
+                                    <>
+                                        
+                                    </>
+                                ) }
                             </div>
                         </div>
                         <div className="row mt-2">
@@ -46,8 +52,16 @@ const Article = () => {
                         </div>
                         <div className="row mt-2">
                             <div className="col-12">
-                                <Button variant="contained">Listen now</Button>
-                                <Button variant="outlined" className="ms-2">Find more</Button>
+                                { homepage ? (
+                                    <>
+                                        <Button variant="contained">Listen now</Button>
+                                        <Button variant="outlined" className="ms-2">Find more</Button>
+                                    </>
+                                ): (
+                                    <>
+                                        <audio controls src="/media/cc0-audio/t-rex-roar.mp3" className='rounded audio-control'></audio>
+                                    </>
+                                ) }
                             </div>
                         </div>
                     </div>

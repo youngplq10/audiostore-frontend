@@ -7,12 +7,17 @@ import RomeoAndJuliet from "../assets/romeo-and-juliet-320.jpg";
 import StarIcon from '@mui/icons-material/Star';
 
 const Category = ({ name }: { name: string }) => {
+    let nameLink = "";
+    if (name != undefined) {
+        nameLink = name.replaceAll(" ", "-")
+    }
+
     return (
         <>
             <div className="container-lg mt-5 pt-5 category">
                 <div className="row">
                     <div className="col-12 text-center">
-                        <Typography variant="h4">{name}</Typography>
+                        <a href={"/genre/" + nameLink} className='text-decoration-none'><Typography variant="h4" sx={{ color: "#000" }}>{name}</Typography></a>
                     </div>
                 </div>
 
