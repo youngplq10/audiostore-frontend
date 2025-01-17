@@ -90,7 +90,12 @@ export const lightTheme = createTheme ({
         },
         outlined: {
             color: '#000'
-        }
+        },
+        sizeSmall: {
+          fontSize: '0.55rem', // Adjust the font size for smaller buttons
+          padding: '2px 4px', // Set smaller padding
+          minWidth: '100%',   // Set minimum width if needed
+        },
       }
     },
   },
