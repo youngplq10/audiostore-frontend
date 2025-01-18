@@ -8,7 +8,7 @@ import RomeoAndJuliet from "../assets/romeo-and-juliet-320.jpg";
 import { audiobook } from '../interfaces/interfaces';
 import axios from 'axios';
 import Loading from './Loading';
-import { removeSpaces } from '../hooks/removeSpaces';
+import { removeSpaces } from '../scripts/removeSpaces';
 
 const MostTrending = () => {
     const [mostTrending, setMostTrending] = useState<audiobook[]>([])
@@ -19,8 +19,8 @@ const MostTrending = () => {
             .then(response => {
                 setMostTrending(response.data.slice(0, 5))
                 setLoading(false)
-            })
-    })
+            }).catch(e => console.log(e))
+    }, [])
 
     if (loading) return <Loading />
 
@@ -37,7 +37,7 @@ const MostTrending = () => {
                         return(
                             <div className="col-4 col-md-2 text-center mt-2" key={audiobookIndex}>
                                 <a
-                                    href={"/audiobook/" + removeSpaces(audiobook.title)}
+                                    href={"/audiobook?title=" + removeSpaces(audiobook.title)}
                                     className="text-decoration-none"
                                     style={{ textDecoration: 'none', color: 'inherit' }}
                                 >

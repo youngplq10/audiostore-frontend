@@ -21,10 +21,10 @@ export default function RootLayout({
         <link href="https://fonts.googleapis.com/css2?family=Parkinsans:wght@300..800&display=swap" rel="stylesheet"/>
       </head>
 
-      <body>
-        <ThemeProvider theme={lightTheme}>
-          {children}
-        </ThemeProvider>
+      <body suppressHydrationWarning>
+          <ThemeProvider theme={lightTheme}>
+            {children}
+          </ThemeProvider>
       </body>
     </html>
   );

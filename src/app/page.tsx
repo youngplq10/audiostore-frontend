@@ -10,7 +10,7 @@ export default function Home() {
   return (
     <>
       <Header />
-      <Article homepage={true} />
+      <Article />
       <MostTrending />
       <Category numberOfGenres={3} />
       <MobileAppAd />

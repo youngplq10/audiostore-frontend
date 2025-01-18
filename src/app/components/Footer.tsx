@@ -21,12 +21,10 @@ const Footer = () => {
         .then(response => {
             setGenres(response.data)
             setLoading(false)
-        })
+        }).catch(e => console.log(e))
     }, [])
 
     if (loading) return <Loading />
-
-    console.log(genres)
     
     return(
         <>

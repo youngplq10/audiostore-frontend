@@ -9,9 +9,9 @@ import RomeoAndJuliet from "../assets/romeo-and-juliet-320.jpg";
 import { audiobook } from '../interfaces/interfaces';
 import axios from 'axios';
 import Loading from './Loading';
-import { removeSpaces } from '../hooks/removeSpaces';
+import { removeSpaces } from '../scripts/removeSpaces';
 
-const Article = ({homepage} : {homepage: boolean}) => {
+const Article = () => {
     const [topAudiobook, setTopAudiobook] = useState<audiobook>();
     const [loading, setLoading] = useState(true);
 
@@ -20,7 +20,7 @@ const Article = ({homepage} : {homepage: boolean}) => {
             .then(response => {
                 setTopAudiobook(response.data)
                 setLoading(false)
-            })
+            }).catch(e => console.log(e))
     }, [])
 
     if (loading) return <Loading />
@@ -33,7 +33,7 @@ const Article = ({homepage} : {homepage: boolean}) => {
                         <Alert 
                             icon={<WhatshotIcon fontSize="inherit" />} 
                             severity="info" 
-                            className="mb-3 d-lg-none" // Visible only on smaller screens
+                            className="mb-3 d-lg-none"
                         >
                             Top 1
                         </Alert>
@@ -48,15 +48,9 @@ const Article = ({homepage} : {homepage: boolean}) => {
                     <div className="col-10 col-lg-6 bd-dark mt-2">
                         <div className="row d-none d-lg-flex mb-2">
                             <div className="col-auto">
-                                { homepage ? (
-                                    <Alert icon={<WhatshotIcon fontSize="inherit" />} severity="info">
+                                <Alert icon={<WhatshotIcon fontSize="inherit" />} severity="info">
                                     Top 1
                                 </Alert>
-                                ) : (
-                                    <>
-                                        
-                                    </>
-                                ) }
                             </div>
                         </div>
                         <div className="row mt-2">
@@ -69,16 +63,8 @@ const Article = ({homepage} : {homepage: boolean}) => {
                         </div>
                         <div className="row mt-2">
                             <div className="col-12">
-                                { homepage ? (
-                                    <>
-                                        <Button variant="contained" href={ "/audiobook/" + removeSpaces(topAudiobook?.title || "") }>Listen now</Button>
-                                        <Button variant="outlined" className="ms-2" href='/genres'>Find more</Button>
-                                    </>
-                                ): (
-                                    <>
-                                        <audio controls src="/media/cc0-audio/t-rex-roar.mp3" className='rounded audio-control'></audio>
-                                    </>
-                                ) }
+                                <Button variant="contained" href={ "/audiobook?title=" + removeSpaces(topAudiobook?.title || "") }>Listen now</Button>
+                                <Button variant="outlined" className="ms-2" href='/genres'>Find more</Button>
                             </div>
                         </div>
                     </div>

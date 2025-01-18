@@ -1,10 +1,20 @@
 "use client";
 
-import { Container, Typography, TextField, Button } from '@mui/material';
+import { Container, Typography, TextField, Button, Link, SpeedDial, Avatar, SpeedDialAction } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import HeadphonesIcon from '@mui/icons-material/Headphones';
+import Cookies from 'universal-cookie';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import LogoutIcon from '@mui/icons-material/Logout';
 
 const Header = () => {
+    const [username, setUsername] = useState<string | null>(null);
+
+    useEffect(() => {
+        const storedUsername = sessionStorage.getItem("username");
+        setUsername(storedUsername);
+    }, []);
+
     return (
         <header className="container-lg py-4 header">
             <div className="row align-items-center">
@@ -18,9 +28,22 @@ const Header = () => {
                 <div className="col-7" style={{ textAlign: 'right' }}>
                     <div style={{ display: 'inline-flex', alignItems: 'center' }}>
                         <TextField id="search" label="Search" variant="outlined" size="small" />
-                        <Button variant="contained" sx={{ textTransform: "none", marginLeft: 2 }} size="large">
-                            Login
-                        </Button>
+                        
+                            { username == null ? (
+                                <a href='/login'>
+                                    <Button variant="contained" sx={{ textTransform: "none", marginLeft: 2 }} size="large">
+                                        Login
+                                    </Button>
+                                </a>
+                            ) : (
+                                <>
+                                    <a href='/dashboard'>
+                                        <Button variant="contained" sx={{ textTransform: "none", marginLeft: 2 }} size="large">
+                                            Dashboard
+                                        </Button>
+                                    </a>
+                                </>
+                            ) }
                     </div>
                 </div>
             </div>

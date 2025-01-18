@@ -1,50 +1,47 @@
 "use client"
 
-import { Typography, Box } from '@mui/material';
+import React, { useEffect, useState } from 'react'
+import { genre } from '../interfaces/interfaces';
+import axios from 'axios';
+import Loading from './Loading';
+import { useSearchParams } from 'next/navigation';
+import { Box, Typography } from '@mui/material';
 import Image from 'next/image';
 import StarIcon from '@mui/icons-material/Star';
-import React, { useEffect, useState } from 'react';
-import RomeoAndJuliet from "../assets/romeo-and-juliet-320.jpg";
-import axios from 'axios';
-import { genre } from '../interfaces/interfaces';
-import { redirect } from 'next/navigation';
-import Loading from './Loading';
 import { removeSpaces } from '../scripts/removeSpaces';
 
-const Category = ({numberOfGenres} : {numberOfGenres: number}) => {
+const SingleCategory = () => {
+    const params = useSearchParams();
 
-    if(numberOfGenres == undefined){
-        numberOfGenres = 1;
-    }
+    const genreName = params.get("name") ? decodeURIComponent(params.get("name")!) : '';
 
-    const [genres, setGenres] = useState<genre[]>([]);
+    const [genre, setGenre] = useState<genre>();
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        axios.get("http://localhost:8080/api/v1/genres")
-        .then(response => {
-            setGenres(response.data.slice(0, numberOfGenres))
-            setLoading(false)
-        }).catch(e => console.log(e))
-    }, [])
+        axios.get("http://localhost:8080/api/v1/genre/" + genreName)
+            .then(response => {
+                setGenre(response.data)
+                setLoading(false)
+            }).catch(e => console.log(e))
+    }, [genreName])
 
     if (loading) return <Loading />
 
-    return (
+    return(
         <>
-            {genres.map((genre, index) => {
-                return(
-                    <div className="container-lg mt-5 pt-5 category" key={index}>
-                        <div className="row">
-                            <div className="col-12 text-center">
-                                <a href={"/genre?name=" + encodeURIComponent(removeSpaces(genre.name))} className='text-decoration-none'><Typography variant="h4" sx={{ color: "#000" }}>{genre.name}</Typography></a>
-                            </div>
-                        </div>
+            <div className="container-lg mt-5 pt-5 category">
+                <div className="row">
+                    <div className="col-12 text-center">
+                        <Typography variant="h4" sx={{ color: "#000" }}>{ genre?.name }</Typography>
+                    </div>
+                </div>
 
-                        <div className="row mt-2 justify-content-center">
-                            {genre.audiobooks.slice(0, 4).map((audiobook, audiobook_index) => {
-                                return(
-                                    <div className="col-auto my-2" key={audiobook_index}>
+                <div className="row mt-2 justify-content-center">
+                    {
+                        genre?.audiobooks.map((audiobook, audiobook_index) => {
+                            return (
+                                <div className="col-auto my-2" key={audiobook_index}>
                                         <a
                                             href={"/audiobook?title=" + removeSpaces(audiobook.title)}
                                             className="text-decoration-none"
@@ -69,17 +66,13 @@ const Category = ({numberOfGenres} : {numberOfGenres: number}) => {
                                             </Box>
                                         </a>
                                     </div>
-                                )
-                            })}
-                        </div>
-
-                        
-                    </div>
-                )
-            })}
-            
+                            )
+                        })
+                    }
+                </div>
+            </div>
         </>
-    );
-};
+    )
+}
 
-export default Category;
+export default SingleCategory
