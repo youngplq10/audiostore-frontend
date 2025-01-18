@@ -12,7 +12,7 @@ export default function Home() {
       <Header />
       <Article homepage={true} />
       <MostTrending />
-      <Category />
+      <Category numberOfGenres={3} />
       <MobileAppAd />
       <Footer />
     </>

@@ -8,9 +8,7 @@ const page = () => {
     return(
         <>
             <Header />
-            <Category name='Science & Fiction' />
-            <Category name='Biography' />
-            <Category name='Romance' />
+            <Category numberOfGenres={10} />
             <MobileAppAd />
             <Footer />
         </>

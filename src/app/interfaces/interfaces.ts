@@ -27,3 +27,28 @@ export interface genre{
         date: Date
     }
 }
+
+export interface audiobook{
+    added_at_date: Date,
+    audioLink: string,
+    author: string,
+    coverLink: string,
+    description: string,
+    duration: number,
+    title: string,
+    genre: {
+        id: {
+            timestamp: number,
+            date: Date
+        },
+        name: string,
+    },
+    reviews: {
+        id: {
+            timestamp: number,
+            date: Date
+        },
+        stars: number,
+        reviewBody: string
+    }[]
+}

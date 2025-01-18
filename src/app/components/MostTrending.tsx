@@ -1,12 +1,29 @@
 "use client"
 
 import { Alert, Typography } from '@mui/material'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import WhatshotIcon from '@mui/icons-material/Whatshot';
 import Image from 'next/image';
 import RomeoAndJuliet from "../assets/romeo-and-juliet-320.jpg";
+import { audiobook } from '../interfaces/interfaces';
+import axios from 'axios';
+import Loading from './Loading';
+import { removeSpaces } from '../hooks/removeSpaces';
 
 const MostTrending = () => {
+    const [mostTrending, setMostTrending] = useState<audiobook[]>([])
+    const [loading, setLoading] = useState(true)
+
+    useEffect(() => {
+        axios.get("http://localhost:8080/api/v1/audiobooks")
+            .then(response => {
+                setMostTrending(response.data.slice(0, 5))
+                setLoading(false)
+            })
+    })
+
+    if (loading) return <Loading />
+
     return(
         <>
             <div className='container-lg pt-5 most-trending'>
@@ -16,61 +33,28 @@ const MostTrending = () => {
                     </div>
                 </div>
                 <div className='row justify-content-center mt-4'>
-                    <div className="col-4 col-md-2 text-center mt-2">
-                        <Image
-                            src={RomeoAndJuliet}
-                            width={100}
-                            height={100}
-                            className='rounded-circle'
-                            alt=''
-                        />
-                        <Typography variant='body1'>Echoes of Tomorrow</Typography>
-                        <Typography variant='subtitle1'>Elena R Cross</Typography>
-                    </div>
-                    <div className="col-4 col-md-2 text-center mt-2">
-                        <Image
-                            src={RomeoAndJuliet}
-                            width={100}
-                            height={100}
-                            className='rounded-circle'
-                            alt=''
-                        />
-                        <Typography variant='body1'>Echoes of Tomorrow</Typography>
-                        <Typography variant='subtitle1'>Elena R Cross</Typography>
-                    </div>
-                    <div className="col-4 col-md-2 text-center mt-2">
-                        <Image
-                            src={RomeoAndJuliet}
-                            width={100}
-                            height={100}
-                            className='rounded-circle'
-                            alt=''
-                        />
-                        <Typography variant='body1'>Echoes of Tomorrow</Typography>
-                        <Typography variant='subtitle1'>Elena R Cross</Typography>
-                    </div>
-                    <div className="col-4 col-md-2 text-center mt-2">
-                        <Image
-                            src={RomeoAndJuliet}
-                            width={100}
-                            height={100}
-                            className='rounded-circle'
-                            alt=''
-                        />
-                        <Typography variant='body1'>Echoes of Tomorrow</Typography>
-                        <Typography variant='subtitle1'>Elena R Cross</Typography>
-                    </div>
-                    <div className="col-4 col-md-2 text-center mt-2">
-                        <Image
-                            src={RomeoAndJuliet}
-                            width={100}
-                            height={100}
-                            className='rounded-circle'
-                            alt=''
-                        />
-                        <Typography variant='body1'>Echoes of Tomorrow</Typography>
-                        <Typography variant='subtitle1'>Elena R Cross</Typography>
-                    </div>
+                    { mostTrending.map((audiobook, audiobookIndex) => {
+                        return(
+                            <div className="col-4 col-md-2 text-center mt-2" key={audiobookIndex}>
+                                <a
+                                    href={"/audiobook/" + removeSpaces(audiobook.title)}
+                                    className="text-decoration-none"
+                                    style={{ textDecoration: 'none', color: 'inherit' }}
+                                >
+
+                                    <Image
+                                        src={"http://localhost:8080" + audiobook.coverLink}
+                                        width={100}
+                                        height={100}
+                                        className='rounded-circle'
+                                        alt=''
+                                    />
+                                    <Typography variant='body1'> { audiobook.title } </Typography>
+                                    <Typography variant='subtitle1'> { audiobook.author } </Typography>
+                                </a>
+                            </div>
+                        )
+                    })}
                 </div>
             </div>
         </>

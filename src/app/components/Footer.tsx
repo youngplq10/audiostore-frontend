@@ -1,39 +1,54 @@
+"use client"
+
 import { Typography } from '@mui/material'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import CopyrightIcon from '@mui/icons-material/Copyright';
+import axios from 'axios';
+import Loading from './Loading';
+import { genre } from '../interfaces/interfaces';
 
 const Footer = () => {
+
+    const removeSpaces = (value: string): string =>{
+        return value.replaceAll(" ", "-");
+    }
+
+    const [genres, setGenres] = useState<genre[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        axios.get("http://localhost:8080/api/v1/genres")
+        .then(response => {
+            setGenres(response.data)
+            setLoading(false)
+        })
+    }, [])
+
+    if (loading) return <Loading />
+
+    console.log(genres)
     
     return(
         <>
             <div className='container-lg my-4'>
                 <div className='row'>
-                    <div className='col-auto'>
-                        <Typography variant='subtitle2'>Login</Typography>
-                        <Typography variant='subtitle2'>Register</Typography>
-                        <Typography variant='subtitle2'>Find more</Typography>
-                    </div>
+                    {
+                        genres.map((genre, indexGenre) => {
+                            return(
+                                <div className='col-auto my-2' key={indexGenre}>
+                                    <a href={"/genre/" + removeSpaces(genre.name)} className="text-decoration-none" style={{ textDecoration: 'none', color: 'inherit' }}>
+                                        <Typography variant='subtitle2'> { genre.name } </Typography>
+                                    </a>
+                                </div>
+                            )
+                        })
+                    }
 
-                    <div className='col-auto'>
-                        <Typography variant='subtitle2'>Literature & Fiction</Typography>
-                        <Typography variant='subtitle2'>Money & Finance</Typography>
-                        <Typography variant='subtitle2'>Romance</Typography>
-                        <Typography variant='subtitle2'>Health & Wellness</Typography>
-                        <Typography variant='subtitle2'>History</Typography>
-                        <Typography variant='subtitle2'>Erotica</Typography>
-                    </div>
-
-                    <div className='col-auto'>
-                        <Typography variant='subtitle2'>Computers & Technology</Typography>
-                        <Typography variant='subtitle2'>LGBTQ+</Typography>
-                        <Typography variant='subtitle2'>Home & Garden</Typography>
-                        <Typography variant='subtitle2'>Biographies & Memories</Typography>
-                        <Typography variant='subtitle2'>Politics & Social Sciences</Typography>
-                    </div>
-
-                    <div className='col-auto ms-auto'>
-                        <Typography variant='subtitle2'>Made by starzynski.dev for</Typography>
-                        <Typography variant='subtitle2'>C Audiobooks</Typography>
+                    <div className="row mt-2">
+                        <div className='col-auto ms-auto'>
+                            <Typography variant='subtitle2'>Made by starzynski.dev for</Typography>
+                            <Typography variant='subtitle2'>C Audiobooks</Typography>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -1,9 +1,8 @@
 "use client";
 
 import { Container, Typography, TextField, Button } from '@mui/material';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import HeadphonesIcon from '@mui/icons-material/Headphones';
-import { redirect } from 'next/navigation';
 
 const Header = () => {
     return (

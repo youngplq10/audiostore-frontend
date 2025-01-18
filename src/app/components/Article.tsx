@@ -1,13 +1,30 @@
 "use client"
 
 import { Alert, Button, Typography } from '@mui/material';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import CheckIcon from '@mui/icons-material/Check';
 import WhatshotIcon from '@mui/icons-material/Whatshot';
 import Image from 'next/image';
 import RomeoAndJuliet from "../assets/romeo-and-juliet-320.jpg";
+import { audiobook } from '../interfaces/interfaces';
+import axios from 'axios';
+import Loading from './Loading';
+import { removeSpaces } from '../hooks/removeSpaces';
 
 const Article = ({homepage} : {homepage: boolean}) => {
+    const [topAudiobook, setTopAudiobook] = useState<audiobook>();
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        axios.get("http://localhost:8080/api/v1/audiobook/1984")
+            .then(response => {
+                setTopAudiobook(response.data)
+                setLoading(false)
+            })
+    }, [])
+
+    if (loading) return <Loading />
+
     return (
         <>
             <article className="container-lg py-5">
@@ -21,7 +38,7 @@ const Article = ({homepage} : {homepage: boolean}) => {
                             Top 1
                         </Alert>
                         <Image
-                            src={RomeoAndJuliet}
+                            src={"http://localhost:8080" + topAudiobook?.coverLink}
                             width={300}
                             height={400}
                             className="rounded-4"
@@ -44,9 +61,9 @@ const Article = ({homepage} : {homepage: boolean}) => {
                         </div>
                         <div className="row mt-2">
                             <div className="col-12">
-                                <Typography variant="h2">Romeo & Juliet</Typography>
+                                <Typography variant="h2"> { topAudiobook?.title } </Typography>
                                 <Typography variant="body1">
-                                A timeless tale of forbidden love and tragic fate, Romeo and Juliet by William Shakespeare follows the passionate romance of two young lovers from feuding families. Set in Verona, this iconic story explores themes of love, destiny, and the devastating consequences of hatred. Experience the enduring power of one of the greatest love stories ever told in this captivating audiobook adaptation.
+                                    { topAudiobook?.description }
                                 </Typography>
                             </div>
                         </div>
@@ -54,8 +71,8 @@ const Article = ({homepage} : {homepage: boolean}) => {
                             <div className="col-12">
                                 { homepage ? (
                                     <>
-                                        <Button variant="contained">Listen now</Button>
-                                        <Button variant="outlined" className="ms-2">Find more</Button>
+                                        <Button variant="contained" href={ "/audiobook/" + removeSpaces(topAudiobook?.title || "") }>Listen now</Button>
+                                        <Button variant="outlined" className="ms-2" href='/genres'>Find more</Button>
                                     </>
                                 ): (
                                     <>
