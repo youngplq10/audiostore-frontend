@@ -5,9 +5,9 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: 'http',
-        hostname: 'localhost',
-        port: '8080', // Port serwera
-        pathname: '/uploads/**', // Ścieżka do zasobów
+        hostname: process.env.NEXT_PUBLIC_HOSTNAME || 'localhost',
+        port: process.env.NEXT_PUBLIC_PORT || '8080',
+        pathname: '/**',
       },
     ],
   },

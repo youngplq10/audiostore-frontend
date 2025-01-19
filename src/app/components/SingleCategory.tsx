@@ -19,7 +19,7 @@ const SingleCategory = () => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        axios.get("http://localhost:8080/api/v1/genre/" + genreName)
+        axios.get(process.env.NEXT_PUBLIC_APIV1 + "/genre/" + genreName)
             .then(response => {
                 setGenre(response.data)
                 setLoading(false)
@@ -48,7 +48,7 @@ const SingleCategory = () => {
                                             style={{ textDecoration: 'none', color: 'inherit' }}
                                         >
                                             <Image
-                                                src={"http://localhost:8080" + audiobook.coverLink}
+                                                src={process.env.NEXT_PUBLIC_RESOURCES + audiobook.coverLink}
                                                 width={250}
                                                 height={350}
                                                 className="rounded-4"

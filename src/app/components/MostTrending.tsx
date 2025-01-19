@@ -15,7 +15,7 @@ const MostTrending = () => {
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
-        axios.get("http://localhost:8080/api/v1/audiobooks")
+        axios.get(process.env.NEXT_PUBLIC_APIV1 + "/audiobooks")
             .then(response => {
                 setMostTrending(response.data.slice(0, 5))
                 setLoading(false)
@@ -43,7 +43,7 @@ const MostTrending = () => {
                                 >
 
                                     <Image
-                                        src={"http://localhost:8080" + audiobook.coverLink}
+                                        src={process.env.NEXT_PUBLIC_RESOURCES +  audiobook.coverLink}
                                         width={100}
                                         height={100}
                                         className='rounded-circle'

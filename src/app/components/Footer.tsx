@@ -17,7 +17,7 @@ const Footer = () => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        axios.get("http://localhost:8080/api/v1/genres")
+        axios.get(process.env.NEXT_PUBLIC_APIV1 + "/genres")
         .then(response => {
             setGenres(response.data)
             setLoading(false)

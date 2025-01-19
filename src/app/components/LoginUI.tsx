@@ -13,7 +13,7 @@ const LoginUI = () => {
     const router = useRouter();
 
     const handleLogin = () => {
-            axios.post("http://localhost:8080/api/v1/login", {
+            axios.post(process.env.NEXT_PUBLIC_APIV1 + "/login", {
                 "username": login,
                 "password": password
             }).then(response => {

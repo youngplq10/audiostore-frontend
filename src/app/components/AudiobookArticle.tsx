@@ -11,6 +11,13 @@ import { useSearchParams } from 'next/navigation'
 
 const AudiobookArticle = () => {
 
+    const [username, setUsername] = useState<string | null>(null);
+    
+    useEffect(() => {
+        const storedUsername = sessionStorage.getItem("username");
+        setUsername(storedUsername);
+    }, []);
+
     const params = useSearchParams();
     
     const title = params.get("title") ? decodeURIComponent(params.get("title")!) : '';
@@ -19,7 +26,7 @@ const AudiobookArticle = () => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        axios.get("http://localhost:8080/api/v1/audiobook/" + title)
+        axios.get(process.env.NEXT_PUBLIC_APIV1 + "/audiobook/" + title)
             .then(response => {
                 setAudiobook(response.data)
                 setLoading(false)
@@ -53,9 +60,20 @@ const AudiobookArticle = () => {
                         </div>
                         <div className="row mt-4">
                             <div className="col-12 ">
-                                <audio controls style={{ backgroundColor: "#7D49CA", borderRadius: 10, width: "100%" }}>
-                                    <source src={"http://localhost:8080" + audiobook?.audioLink} type="audio/mpeg" />
-                                </audio>
+                                { username == undefined ? (
+                                    <a href='/login'>
+                                        <Button variant="contained" sx={{ textTransform: "none"}} size="large">
+                                            Login to listen for free
+                                        </Button>
+                                    </a>
+                                ) : (
+                                    <>
+                                        <audio controls style={{ backgroundColor: "#7D49CA", borderRadius: 10, width: "100%" }}>
+                                            <source src={"http://localhost:8080" + audiobook?.audioLink} type="audio/mpeg" />
+                                        </audio>
+                                        <Button variant='contained'>Save to library</Button>
+                                    </>
+                                ) }
                             </div>
                         </div>
                     </div>

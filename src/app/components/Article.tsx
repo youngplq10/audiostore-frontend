@@ -16,10 +16,11 @@ const Article = () => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        axios.get("http://localhost:8080/api/v1/audiobook/1984")
+        axios.get(process.env.NEXT_PUBLIC_APIV1 + "/audiobook/1984")
             .then(response => {
                 setTopAudiobook(response.data)
                 setLoading(false)
+                console.log(process.env.NEXT_PUBLIC_APIV1 + "/audiobook/1984")
             }).catch(e => console.log(e))
     }, [])
 
@@ -42,7 +43,7 @@ const Article = () => {
                             width={300}
                             height={400}
                             className="rounded-4"
-                            alt="romeo and juliet"
+                            alt="audiobook cover"
                         />
                     </div>
                     <div className="col-10 col-lg-6 bd-dark mt-2">
