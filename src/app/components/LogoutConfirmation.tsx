@@ -2,7 +2,7 @@
 
 import { Button, Typography } from '@mui/material'
 import React from 'react'
-import { logout } from '../scripts/Server'
+import { logout } from '@/app/scripts/Server'
 
 const LogoutConfirmation = () => {
     const handleLogout = () => {

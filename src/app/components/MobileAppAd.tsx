@@ -2,12 +2,13 @@
 
 import { Button, Typography } from '@mui/material'
 import React from 'react'
-import MobileAppImage from "../assets/mobileAppImage.png";
+import MobileAppImage from "@/app/assets/mobileAppImage.png";
 import Image from 'next/image';
 import AppleIcon from '@mui/icons-material/Apple';
 import AndroidIcon from '@mui/icons-material/Android';
 
 const MobileAppAd = () => {
+
     return(
         <>
             <div className='container-lg my-5'>

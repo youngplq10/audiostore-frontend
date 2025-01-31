@@ -30,14 +30,54 @@ const emptyAudiobook = {
     }]
 } 
 
-export const loginUser = async (login: string, password: string) => {
-    await axios.post(process.env.NEXT_PUBLIC_APIV1 + "/login", {
-        "username": login,
-        "password": password
-    }).then(res => {
-        setAuthToken(res.data)
-    })
-    .catch(e => console.log(e))
+const emptyGenre = {
+    audiobooks: [{
+        added_at_date: new Date,
+        audioLink: "",
+        author: "",
+        coverLink: "",
+        description: "",
+        duration: 0,
+        id: {
+            timestamp: 0,
+            date: new Date
+        },
+        published_at_date: new Date,
+        title: "",
+        reviews: [{
+            id: {
+                timestamp: 0,
+                date: new Date
+            },
+            reviewBody: "",
+            stars: 0
+        }]
+    }],
+    name: "",
+    id: {
+        timestamp: 0,
+        date: new Date
+    }
+}
+
+export const loginUser = async (login: string, password: string) : Promise<boolean> => {
+    try {
+        const res = await axios.post(process.env.NEXT_PUBLIC_APIV1 + "/login", {
+            "username": login,
+            "password": password
+        })
+        
+        if ( res.data[0] !== "<" ) {
+            setAuthToken(res.data)
+            return true;
+        } else {
+            return false;
+        }
+    } catch (err) {
+        console.log(err)
+        return false
+        
+    }
 }
 
 export const getTopAudiobook = async () : Promise<audiobook> => {
@@ -79,8 +119,22 @@ export const getCategory = async () : Promise<genre[]> => {
     }
 }
 
-/*axios.get(process.env.NEXT_PUBLIC_APIV1 + "/genres")
-        .then(response => {
-            setGenres(response.data.slice(0, numberOfGenres))
-            setLoading(false)
-        }).catch(e => console.log(e)) */
+export const getAudiobooks = async () : Promise<audiobook[]> => {
+    try {
+        const res = await axios.get(process.env.NEXT_PUBLIC_APIV1 + "/audiobooks")
+
+        return res.data as audiobook[]
+    } catch {
+        return []
+    }
+}
+
+export const getSingleCategory = async (genreName: string) : Promise<genre> => {
+    try {
+        const res = await axios.get(process.env.NEXT_PUBLIC_APIV1 + "/genre/" + genreName)
+
+        return res.data as genre
+    } catch {
+        return emptyGenre
+    }
+}

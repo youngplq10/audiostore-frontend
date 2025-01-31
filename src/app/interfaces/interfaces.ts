@@ -20,7 +20,7 @@ export interface genre{
             reviewBody: string,
             stars: number
         }[]
-    }[];
+    }[],
     name: string,
     id: {
         timestamp: number,

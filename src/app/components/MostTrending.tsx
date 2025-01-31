@@ -1,25 +1,24 @@
 "use client"
 
-import { Alert, Typography } from '@mui/material'
+import { Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
-import WhatshotIcon from '@mui/icons-material/Whatshot';
 import Image from 'next/image';
-import RomeoAndJuliet from "../assets/romeo-and-juliet-320.jpg";
-import { audiobook } from '../interfaces/interfaces';
-import axios from 'axios';
-import Loading from './Loading';
-import { removeSpaces } from '../scripts/removeSpaces';
+import { audiobook } from '@/app/interfaces/interfaces';
+import Loading from '@/app/components/Loading';
+import { removeSpaces } from '@/app/scripts/removeSpaces';
+import { getAudiobooks } from '@/app/scripts/APICalls';
 
 const MostTrending = () => {
     const [mostTrending, setMostTrending] = useState<audiobook[]>([])
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
-        axios.get(process.env.NEXT_PUBLIC_APIV1 + "/audiobooks")
-            .then(response => {
-                setMostTrending(response.data.slice(0, 5))
-                setLoading(false)
-            }).catch(e => console.log(e))
+        const fetchMostTrending = async () => {
+            const res = await getAudiobooks();
+            setLoading(false)
+            setMostTrending(res.slice(0, 5))
+        }
+        fetchMostTrending()
     }, [])
 
     if (loading) return <Loading />

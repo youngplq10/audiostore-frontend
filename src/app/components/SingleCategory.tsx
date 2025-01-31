@@ -1,14 +1,14 @@
 "use client"
 
 import React, { useEffect, useState } from 'react'
-import { genre } from '../interfaces/interfaces';
-import axios from 'axios';
-import Loading from './Loading';
+import { genre } from '@/app/interfaces/interfaces';
+import Loading from '@/app/components/Loading';
 import { useSearchParams } from 'next/navigation';
 import { Box, Typography } from '@mui/material';
 import Image from 'next/image';
 import StarIcon from '@mui/icons-material/Star';
-import { removeSpaces } from '../scripts/removeSpaces';
+import { removeSpaces } from '@/app/scripts/removeSpaces';
+import { getSingleCategory } from '@/app/scripts/APICalls';
 
 const SingleCategory = () => {
     const params = useSearchParams();
@@ -19,11 +19,12 @@ const SingleCategory = () => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        axios.get(process.env.NEXT_PUBLIC_APIV1 + "/genre/" + genreName)
-            .then(response => {
-                setGenre(response.data)
-                setLoading(false)
-            }).catch(e => console.log(e))
+        const fetchGenre = async () => {
+            const res = await getSingleCategory(genreName);
+            setGenre(res)
+            setLoading(false)
+        }
+        fetchGenre();
     }, [genreName])
 
     if (loading) return <Loading />
