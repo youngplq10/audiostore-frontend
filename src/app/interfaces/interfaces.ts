@@ -52,3 +52,18 @@ export interface audiobook{
         reviewBody: string
     }[]
 }
+
+export interface user{
+    username: string,
+    email: string,
+    phone: number,
+    likedAudiobooks: {
+        added_at_date: Date,
+        audioLink: string,
+        author: string,
+        coverLink: string,
+        description: string,
+        duration: number,
+        title: string,
+    }[]
+}

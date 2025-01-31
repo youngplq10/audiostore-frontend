@@ -31,7 +31,7 @@ const Footer = () => {
                         genres.map((genre, indexGenre) => {
                             return(
                                 <div className='col-auto my-2' key={indexGenre}>
-                                    <a href={"/genre/" + removeSpaces(genre.name)} className="text-decoration-none" style={{ textDecoration: 'none', color: 'inherit' }}>
+                                    <a href={"/genre?name=" + encodeURIComponent(removeSpaces(genre.name))} className="text-decoration-none" style={{ textDecoration: 'none', color: 'inherit' }}>
                                         <Typography variant='subtitle2'> { genre.name } </Typography>
                                     </a>
                                 </div>

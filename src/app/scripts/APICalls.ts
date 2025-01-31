@@ -1,9 +1,9 @@
 "use server"
 
 import axios from "axios"
-import { setAuthToken } from "./Server"
-import { audiobook, genre } from "../interfaces/interfaces"
-import { timeStamp } from "console"
+import { getAllCookies, setAuthToken } from "@/app/scripts/Server"
+import { audiobook, genre, user } from "@/app/interfaces/interfaces"
+import { headers } from "next/headers"
 
 const emptyAudiobook = {
     added_at_date: new Date,
@@ -59,12 +59,29 @@ const emptyGenre = {
         date: new Date
     }
 }
+const emptyUser = {
+    username: "",
+    email: "",
+    phone: 0,
+    likedAudiobooks: [{
+        added_at_date: new Date,
+        audioLink: "",
+        author: "",
+        coverLink: "",
+        description: "",
+        duration: 0,
+        title: "",
+    }]
+}
 
 export const loginUser = async (login: string, password: string) : Promise<boolean> => {
     try {
         const res = await axios.post(process.env.NEXT_PUBLIC_APIV1 + "/login", {
             "username": login,
-            "password": password
+            "password": password,
+            headers: {
+                'Content-Type': 'application/json'
+            }
         })
         
         if ( res.data[0] !== "<" ) {
@@ -74,7 +91,6 @@ export const loginUser = async (login: string, password: string) : Promise<boole
             return false;
         }
     } catch (err) {
-        console.log(err)
         return false
         
     }
@@ -110,7 +126,11 @@ export const getAudiobook = async (title: string) : Promise<audiobook> => {
 
 export const getCategory = async () : Promise<genre[]> => {
     try {
-        const res = await axios.get(process.env.NEXT_PUBLIC_APIV1 + "/genres");
+        const res = await axios.get(process.env.NEXT_PUBLIC_APIV1 + "/genres", {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
 
         return res.data as genre[]
     }
@@ -121,7 +141,11 @@ export const getCategory = async () : Promise<genre[]> => {
 
 export const getAudiobooks = async () : Promise<audiobook[]> => {
     try {
-        const res = await axios.get(process.env.NEXT_PUBLIC_APIV1 + "/audiobooks")
+        const res = await axios.get(process.env.NEXT_PUBLIC_APIV1 + "/audiobooks", {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
 
         return res.data as audiobook[]
     } catch {
@@ -131,10 +155,31 @@ export const getAudiobooks = async () : Promise<audiobook[]> => {
 
 export const getSingleCategory = async (genreName: string) : Promise<genre> => {
     try {
-        const res = await axios.get(process.env.NEXT_PUBLIC_APIV1 + "/genre/" + genreName)
+        const res = await axios.get(process.env.NEXT_PUBLIC_APIV1 + "/genre/" + genreName, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
 
         return res.data as genre
     } catch {
         return emptyGenre
+    }
+}
+
+export const getUserData = async () : Promise<user> => {
+    try {
+        const { username, token } = await getAllCookies();
+
+        const res = await axios.get(process.env.NEXT_PUBLIC_APIV1 + "/user/" + username, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token,
+            }
+        })
+
+        return res.data as user
+    } catch {
+        return emptyUser
     }
 }

@@ -1,4 +1,3 @@
-import Article from '@/app/components/Article'
 import AudiobookArticle from '@/app/components/AudiobookArticle'
 import Footer from '@/app/components/Footer'
 import Header from '@/app/components/Header'

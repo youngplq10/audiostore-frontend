@@ -1,8 +1,8 @@
 import React from 'react'
-import Header from '../components/Header'
-import Category from '../components/Category'
-import MobileAppAd from '../components/MobileAppAd'
-import Footer from '../components/Footer'
+import Header from '@/app/components/Header'
+import Category from '@/app/components/Category'
+import MobileAppAd from '@/app/components/MobileAppAd'
+import Footer from '@/app/components/Footer'
 
 const page = () => {
     return(

@@ -17,7 +17,6 @@ export const setAuthToken = (token: string) => {
 
 export const getIsAuthenticated = () : boolean => {
     const isAuthenticated = cookies().get("isAuthenticated")?.value;
-    console.log(isAuthenticated)
     return isAuthenticated === "true"; 
 };
 
