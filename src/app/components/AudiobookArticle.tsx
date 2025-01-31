@@ -1,40 +1,46 @@
 "use client"
 
-import { Alert, Button, Typography } from '@mui/material'
+import { Button, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
-import { removeSpaces } from '../scripts/removeSpaces'
 import Image from "next/image"
-import { audiobook } from '../interfaces/interfaces'
-import axios from 'axios'
-import Loading from './Loading'
+import { audiobook } from '@/app/interfaces/interfaces'
+import Loading from '@/app/components/Loading'
 import { useSearchParams } from 'next/navigation'
+import { getIsAuthenticated } from '@/app/scripts/Server'
+import { getAudiobook } from '@/app/scripts/APICalls'
 
 const AudiobookArticle = () => {
 
-    const [username, setUsername] = useState<string | null>(null);
+    const [isLogged, setIsLogged] = useState(false);
+    const [audiobook, setAudiobook] = useState<audiobook>();
+    const [loading, setLoading] = useState(true);
     
     useEffect(() => {
-        const storedUsername = sessionStorage.getItem("username");
-        setUsername(storedUsername);
+        const checkAuth = async () => {
+            try {
+                const authStatus = await getIsAuthenticated();
+                setIsLogged(authStatus);
+            } catch (error) {
+                setIsLogged(false);
+            }
+        };
+        checkAuth();
     }, []);
 
     const params = useSearchParams();
     
     const title = params.get("title") ? decodeURIComponent(params.get("title")!) : '';
     
-    const [audiobook, setAudiobook] = useState<audiobook>();
-    const [loading, setLoading] = useState(true);
-
     useEffect(() => {
-        axios.get(process.env.NEXT_PUBLIC_APIV1 + "/audiobook/" + title)
-            .then(response => {
-                setAudiobook(response.data)
-                setLoading(false)
-            })
-            .catch(error => console.log(error))
+        const fetchAudiobok = async () => {
+            const res = await getAudiobook(title);
+            setAudiobook(res)
+            setLoading(false)
+        } 
+        fetchAudiobok()
     }, [title])
 
-    if(loading) return <Loading />
+    if (loading) return <Loading />
 
     return(
         <>
@@ -60,7 +66,7 @@ const AudiobookArticle = () => {
                         </div>
                         <div className="row mt-4">
                             <div className="col-12 ">
-                                { username == undefined ? (
+                                { !isLogged ? (
                                     <a href='/login'>
                                         <Button variant="contained" sx={{ textTransform: "none"}} size="large">
                                             Login to listen for free

@@ -2,26 +2,25 @@
 
 import { Alert, Button, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
-import CheckIcon from '@mui/icons-material/Check';
 import WhatshotIcon from '@mui/icons-material/Whatshot';
 import Image from 'next/image';
-import RomeoAndJuliet from "../assets/romeo-and-juliet-320.jpg";
-import { audiobook } from '../interfaces/interfaces';
-import axios from 'axios';
-import Loading from './Loading';
-import { removeSpaces } from '../scripts/removeSpaces';
+import { audiobook } from '@/app/interfaces/interfaces';
+import Loading from '@/app/components/Loading';
+import { removeSpaces } from '@/app/scripts/removeSpaces';
+import { getTopAudiobook } from '@/app/scripts/APICalls';
 
 const Article = () => {
     const [topAudiobook, setTopAudiobook] = useState<audiobook>();
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        axios.get(process.env.NEXT_PUBLIC_APIV1 + "/audiobook/1984")
-            .then(response => {
-                setTopAudiobook(response.data)
-                setLoading(false)
-                console.log(process.env.NEXT_PUBLIC_APIV1 + "/audiobook/1984")
-            }).catch(e => console.log(e))
+        const fetchTopAudiobook = async () => {
+            const res = await getTopAudiobook();
+            setTopAudiobook(res)
+            setLoading(false)
+        }
+
+        fetchTopAudiobook();
     }, [])
 
     if (loading) return <Loading />

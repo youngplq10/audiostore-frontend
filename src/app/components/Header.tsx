@@ -1,19 +1,33 @@
 "use client";
 
-import { Container, Typography, TextField, Button, Link, SpeedDial, Avatar, SpeedDialAction } from '@mui/material';
+import { Typography, TextField, Button, Menu, MenuItem } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import HeadphonesIcon from '@mui/icons-material/Headphones';
-import Cookies from 'universal-cookie';
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import LogoutIcon from '@mui/icons-material/Logout';
-
+import Link from 'next/link';
+import { getIsAuthenticated } from '@/app/scripts/Server';
 const Header = () => {
-    const [username, setUsername] = useState<string | null>(null);
+    const [isLogged, setIsLogged] = useState(false);
 
     useEffect(() => {
-        const storedUsername = sessionStorage.getItem("username");
-        setUsername(storedUsername);
+        const checkAuth = async () => {
+            try {
+                const authStatus = await getIsAuthenticated();
+                setIsLogged(authStatus);
+            } catch (error) {
+                setIsLogged(false);
+            }
+        };
+        checkAuth();
     }, []);
+
+    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+    const open = Boolean(anchorEl);
+    const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
 
     return (
         <header className="container-lg py-4 header">
@@ -29,19 +43,36 @@ const Header = () => {
                     <div style={{ display: 'inline-flex', alignItems: 'center' }}>
                         <TextField id="search" label="Search" variant="outlined" size="small" />
                         
-                            { username == null ? (
+                            { !isLogged ? (
                                 <a href='/login'>
                                     <Button variant="contained" sx={{ textTransform: "none", marginLeft: 2 }} size="large">
                                         Login
                                     </Button>
                                 </a>
                             ) : (
-                                <>
-                                    <a href='/dashboard'>
-                                        <Button variant="contained" sx={{ textTransform: "none", marginLeft: 2 }} size="large">
-                                            Dashboard
+                                <>                
+                                        <Button variant="contained" sx={{ textTransform: "none", marginLeft: 2 }} size="large" id="basic-button"
+                                            aria-controls={open ? 'basic-menu' : undefined}
+                                            aria-haspopup="true"
+                                            aria-expanded={open ? 'true' : undefined}
+                                            onClick={handleClick}>
+
+                                            Menu
                                         </Button>
-                                    </a>
+                                    
+                                    <Menu
+                                        id="basic-menu"
+                                        anchorEl={anchorEl}
+                                        open={open}
+                                        onClose={handleClose}
+                                        MenuListProps={{
+                                        'aria-labelledby': 'basic-button',
+                                        }}
+                                        sx={{ marginTop: "10px" }}
+                                    >
+                                        <Link href="/dashboard" className='text-decoration-none' style={{ color: "#070609" }}> <MenuItem onClick={handleClose}>Dashboard</MenuItem> </Link>
+                                        <Link href="/logout" className='text-decoration-none' style={{ color: "#070609" }}> <MenuItem onClick={handleClose}>Logout</MenuItem> </Link>
+                                    </Menu>
                                 </>
                             ) }
                     </div>

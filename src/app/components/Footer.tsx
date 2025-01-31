@@ -2,26 +2,23 @@
 
 import { Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
-import CopyrightIcon from '@mui/icons-material/Copyright';
-import axios from 'axios';
-import Loading from './Loading';
-import { genre } from '../interfaces/interfaces';
+import Loading from '@/app/components/Loading';
+import { genre } from '@/app/interfaces/interfaces';
+import { removeSpaces } from '@/app/scripts/removeSpaces';
+import { getCategory } from '@/app/scripts/APICalls';
 
 const Footer = () => {
-
-    const removeSpaces = (value: string): string =>{
-        return value.replaceAll(" ", "-");
-    }
-
     const [genres, setGenres] = useState<genre[]>([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        axios.get(process.env.NEXT_PUBLIC_APIV1 + "/genres")
-        .then(response => {
-            setGenres(response.data)
+        const fetchCategory = async () => {
+            const res = await getCategory();
+
+            setGenres(res);
             setLoading(false)
-        }).catch(e => console.log(e))
+        }
+        fetchCategory()
     }, [])
 
     if (loading) return <Loading />

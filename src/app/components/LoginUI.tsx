@@ -1,37 +1,23 @@
 "use client"
 
 import { Button } from '@mui/material';
-import axios from 'axios';
-import { jwtDecode } from 'jwt-decode';
-import { useRouter } from 'next/navigation';
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
+import { loginUser } from '@/app/scripts/APICalls';
 
 const LoginUI = () => {
-
     const [login, setLogin] = useState("");
     const [password, setPassword] = useState("");
-    const router = useRouter();
 
     const handleLogin = () => {
-            axios.post(process.env.NEXT_PUBLIC_APIV1 + "/login", {
-                "username": login,
-                "password": password
-            }).then(response => {
-                const decoded = jwtDecode(response.data)
-                
-                sessionStorage.setItem("username", decoded.sub || "")
-                sessionStorage.setItem("token", response.data)
-
-                router.push("/")
-            })
-            .catch(e => console.log(e))
+            loginUser(login, password);
+            window.location.href = "/"
     }
 
     return(
         <>
             <div className='container-lg my-5'>
                 <div className="row justify-content-center align-items-center">
-                    <div className="col-4">
+                    <div className="col-10 col-md-6 col-xl-4">
                         <form>
                             <label>Login</label>
                             <input type='text' style={{ width: "100%" }} value={login} onChange={(e) => setLogin(e.target.value)} />

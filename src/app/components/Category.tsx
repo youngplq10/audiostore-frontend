@@ -4,16 +4,14 @@ import { Typography, Box } from '@mui/material';
 import Image from 'next/image';
 import StarIcon from '@mui/icons-material/Star';
 import React, { useEffect, useState } from 'react';
-import RomeoAndJuliet from "../assets/romeo-and-juliet-320.jpg";
-import axios from 'axios';
-import { genre } from '../interfaces/interfaces';
-import { redirect } from 'next/navigation';
-import Loading from './Loading';
-import { removeSpaces } from '../scripts/removeSpaces';
+import { genre } from '@/app/interfaces/interfaces';
+import Loading from '@/app/components/Loading';
+import { removeSpaces } from '@/app/scripts/removeSpaces';
+import { getCategory } from '@/app/scripts/APICalls';
 
-const Category = ({numberOfGenres} : {numberOfGenres: number}) => {
+const Category = ( { numberOfGenres } : { numberOfGenres: number } ) => {
 
-    if(numberOfGenres == undefined){
+    if (numberOfGenres == undefined){
         numberOfGenres = 1;
     }
 
@@ -21,12 +19,13 @@ const Category = ({numberOfGenres} : {numberOfGenres: number}) => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        axios.get(process.env.NEXT_PUBLIC_APIV1 + "/genres")
-        .then(response => {
-            setGenres(response.data.slice(0, numberOfGenres))
+        const fetchCategory = async () => {
+            const res = await getCategory();
+            setGenres(res.slice(0, numberOfGenres))
             setLoading(false)
-        }).catch(e => console.log(e))
-    }, [])
+        }
+        fetchCategory();
+    }, [numberOfGenres])
 
     if (loading) return <Loading />
 
@@ -71,13 +70,10 @@ const Category = ({numberOfGenres} : {numberOfGenres: number}) => {
                                     </div>
                                 )
                             })}
-                        </div>
-
-                        
+                        </div> 
                     </div>
                 )
-            })}
-            
+            })}    
         </>
     );
 };
