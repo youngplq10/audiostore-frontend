@@ -117,7 +117,6 @@ export const getAudiobook = async (title: string) : Promise<audiobook> => {
                 'Content-Type': 'application/json'
             }
         });
-
         return res.data as audiobook
     } catch {
         return emptyAudiobook
@@ -179,7 +178,41 @@ export const getUserData = async () : Promise<user> => {
         })
 
         return res.data as user
-    } catch {
+    } catch (error) {
         return emptyUser
+    }
+}
+
+export const saveAudiobook = async (title: string) => {
+    try {
+        const { username, token } = await getAllCookies();
+
+        console.log(process.env.NEXT_PUBLIC_APIV1 + "/like")
+
+        await axios.post(process.env.NEXT_PUBLIC_APIV1 + "/like?username=" + username + "&title=" + title, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token,
+            }
+        })      
+    } catch (error) {
+        throw error
+    }
+}
+
+export const unSaveAudiobook = async (title: string) => {
+    try {
+        const { username, token } = await getAllCookies();
+
+        console.log(process.env.NEXT_PUBLIC_APIV1 + "unlike?username=" + username + "&title=" + title)
+
+        await axios.post(process.env.NEXT_PUBLIC_APIV1 + "/unlike?username=" + username + "&title=" + title, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token,
+            }
+        })      
+    } catch (error) {
+        throw error
     }
 }

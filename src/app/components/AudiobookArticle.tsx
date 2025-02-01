@@ -3,17 +3,49 @@
 import { Button, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import Image from "next/image"
-import { audiobook } from '@/app/interfaces/interfaces'
+import { audiobook, user } from '@/app/interfaces/interfaces'
 import Loading from '@/app/components/Loading'
 import { useSearchParams } from 'next/navigation'
 import { getIsAuthenticated } from '@/app/scripts/Server'
-import { getAudiobook } from '@/app/scripts/APICalls'
+import { getAudiobook, getUserData, saveAudiobook, unSaveAudiobook } from '@/app/scripts/APICalls'
+import { removeSpaces } from '../scripts/removeSpaces'
 
 const AudiobookArticle = () => {
 
     const [isLogged, setIsLogged] = useState(false);
     const [audiobook, setAudiobook] = useState<audiobook>();
     const [loading, setLoading] = useState(true);
+
+    const [userData, setUserData] = useState<user>();
+    const [saved, setSaved] = useState(false)
+
+    useEffect(() => {
+        if (loading != true) {
+            const fetchUser = async () => {
+                const res = await getUserData();
+    
+                setUserData(res)
+
+                for (let i=0; i<res.likedAudiobooks.length;i++) {
+                    if (removeSpaces(res.likedAudiobooks[i].title) == title) {
+                        setSaved(true)
+                    }
+                }
+            }
+            fetchUser()
+        }
+    }, [audiobook])
+
+    const handleSaveButton = async () => {
+        if (saved) {
+            setSaved(!saved);
+            unSaveAudiobook(title);
+        }
+        if (!saved) {
+            setSaved(!saved);
+            saveAudiobook(title);
+        }
+    }
     
     useEffect(() => {
         const checkAuth = async () => {
@@ -73,13 +105,22 @@ const AudiobookArticle = () => {
                                         </Button>
                                     </a>
                                 ) : (
-                                    <>
-                                        <audio controls style={{ backgroundColor: "#7D49CA", borderRadius: 10, width: "100%" }}>
-                                            <source src={"http://localhost:8080" + audiobook?.audioLink} type="audio/mpeg" />
-                                        </audio>
-                                        <Button variant='contained'>Save to library</Button>
-                                    </>
-                                ) }
+                                    !saved ? (
+                                        <>
+                                            <audio controls style={{ backgroundColor: "#7D49CA", borderRadius: 10, width: "100%" }}>
+                                                <source src={"http://localhost:8080" + audiobook?.audioLink} type="audio/mpeg" />
+                                            </audio>
+                                            <Button variant='contained' onClick={handleSaveButton}>Save to library</Button>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <audio controls style={{ backgroundColor: "#7D49CA", borderRadius: 10, width: "100%" }}>
+                                                <source src={"http://localhost:8080" + audiobook?.audioLink} type="audio/mpeg" />
+                                            </audio>
+                                            <Button variant='contained' onClick={handleSaveButton}>Remove from library</Button>
+                                        </>
+                                    )
+                                )}
                             </div>
                         </div>
                     </div>
