@@ -18,6 +18,7 @@ const Article = () => {
             const res = await getTopAudiobook();
             setTopAudiobook(res)
             setLoading(false)
+            console.log(res)
         }
 
         fetchTopAudiobook();
