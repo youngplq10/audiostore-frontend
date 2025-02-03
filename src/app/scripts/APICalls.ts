@@ -75,7 +75,7 @@ const emptyUser = {
 
 export const loginUser = async (login: string, password: string) : Promise<boolean> => {
     try {
-        const res = await axios.post(process.env.NEXT_PUBLIC_APIV1 + "/public/login", {
+        const res = await axios.post(process.env.NEXT_PRIVATE_APIV1 + "/public/login", {
             "username": login,
             "password": password,
             headers: {
@@ -97,7 +97,7 @@ export const loginUser = async (login: string, password: string) : Promise<boole
 
 export const getTopAudiobook = async () : Promise<audiobook> => {
     try {
-        const res = await axios.get(process.env.NEXT_PUBLIC_APIV1 + "/public/audiobook/1984", {
+        const res = await axios.get(process.env.NEXT_PRIVATE_APIV1 + "/public/audiobook/1984", {
             headers: {
                 'Content-Type': 'application/json'
             }
@@ -111,7 +111,7 @@ export const getTopAudiobook = async () : Promise<audiobook> => {
 
 export const getAudiobook = async (title: string) : Promise<audiobook> => {
     try {
-        const res = await axios.get(process.env.NEXT_PUBLIC_APIV1 + "/public/audiobook/" + title, {
+        const res = await axios.get(process.env.NEXT_PRIVATE_APIV1 + "/public/audiobook/" + title, {
             headers: {
                 'Content-Type': 'application/json'
             }
@@ -124,7 +124,7 @@ export const getAudiobook = async (title: string) : Promise<audiobook> => {
 
 export const getCategory = async () : Promise<genre[]> => {
     try {
-        const res = await axios.get(process.env.NEXT_PUBLIC_APIV1 + "/public/genres", {
+        const res = await axios.get(process.env.NEXT_PRIVATE_APIV1 + "/public/genres", {
             headers: {
                 'Content-Type': 'application/json'
             }
@@ -139,7 +139,7 @@ export const getCategory = async () : Promise<genre[]> => {
 
 export const getAudiobooks = async () : Promise<audiobook[]> => {
     try {
-        const res = await axios.get(process.env.NEXT_PUBLIC_APIV1 + "/public/audiobooks", {
+        const res = await axios.get(process.env.NEXT_PRIVATE_APIV1 + "/public/audiobooks", {
             headers: {
                 'Content-Type': 'application/json'
             }
@@ -153,7 +153,7 @@ export const getAudiobooks = async () : Promise<audiobook[]> => {
 
 export const getSingleCategory = async (genreName: string) : Promise<genre> => {
     try {
-        const res = await axios.get(process.env.NEXT_PUBLIC_APIV1 + "/public/genre/" + genreName, {
+        const res = await axios.get(process.env.NEXT_PRIVATE_APIV1 + "/public/genre/" + genreName, {
             headers: {
                 'Content-Type': 'application/json'
             }
@@ -169,7 +169,7 @@ export const getUserData = async () : Promise<user> => {
     try {
         const { username, token } = await getAllCookies();
 
-        const res = await axios.get(process.env.NEXT_PUBLIC_APIV1 + "/auth/user/" + username, {
+        const res = await axios.get(process.env.NEXT_PRIVATE_APIV1 + "/auth/user/" + username, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + token,
@@ -186,7 +186,7 @@ export const saveAudiobook = async (title: string) => {
     try {
         const { username, token } = await getAllCookies();
 
-        const res = await axios.post(process.env.NEXT_PUBLIC_APIV1 + "/auth/like?username=" + username + "&title=" + title, {}, {
+        const res = await axios.post(process.env.NEXT_PRIVATE_APIV1 + "/auth/like?username=" + username + "&title=" + title, {}, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + token,
@@ -203,7 +203,7 @@ export const unSaveAudiobook = async (title: string) => {
     try {
         const { username, token } = await getAllCookies();
 
-        await axios.post(process.env.NEXT_PUBLIC_APIV1 + "/auth/unlike?username=" + username + "&title=" + title, {}, {
+        await axios.post(process.env.NEXT_PRIVATE_APIV1 + "/auth/unlike?username=" + username + "&title=" + title, {}, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + token,

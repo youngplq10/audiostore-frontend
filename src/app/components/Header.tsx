@@ -7,12 +7,14 @@ import Link from 'next/link';
 import { getIsAuthenticated } from '@/app/scripts/Server';
 const Header = () => {
     const [isLogged, setIsLogged] = useState(false);
+    const [loading ,setLoading] = useState(true);
 
     useEffect(() => {
         const checkAuth = async () => {
             try {
                 const authStatus = await getIsAuthenticated();
                 setIsLogged(authStatus);
+                setLoading(false);
             } catch (error) {
                 setIsLogged(false);
             }
@@ -41,39 +43,42 @@ const Header = () => {
                 </div>
                 <div className="col-7" style={{ textAlign: 'right' }}>
                     <div style={{ display: 'inline-flex', alignItems: 'center' }}>
-                        <TextField id="search" label="Search" variant="outlined" size="small" />
-                        
-                            { !isLogged ? (
-                                <a href='/login'>
-                                    <Button variant="contained" sx={{ textTransform: "none", marginLeft: 2 }} size="large">
-                                        Login
-                                    </Button>
-                                </a>
+                        <TextField id="search" label="Search" variant="outlined" size="small" />                     
+                            { loading ? (
+                                <div style={{ width: "100%", height: "40px", marginLeft: "10px" }} className='gradient'></div>
                             ) : (
-                                <>                
+                                 !isLogged ? (
+                                    <a href='/login'>
+                                        <Button variant="contained" sx={{ textTransform: "none", marginLeft: 2 }} size="large">
+                                            Login
+                                        </Button>
+                                    </a>
+                                ) : (
+                                    <>                
                                         <Button variant="contained" sx={{ textTransform: "none", marginLeft: 2 }} size="large" id="basic-button"
                                             aria-controls={open ? 'basic-menu' : undefined}
                                             aria-haspopup="true"
                                             aria-expanded={open ? 'true' : undefined}
                                             onClick={handleClick}>
-
+    
                                             Menu
                                         </Button>
-                                    
-                                    <Menu
-                                        id="basic-menu"
-                                        anchorEl={anchorEl}
-                                        open={open}
-                                        onClose={handleClose}
-                                        MenuListProps={{
-                                        'aria-labelledby': 'basic-button',
-                                        }}
-                                        sx={{ marginTop: "10px" }}
-                                    >
-                                        <Link href="/dashboard" className='text-decoration-none' style={{ color: "#070609" }}> <MenuItem onClick={handleClose}>Dashboard</MenuItem> </Link>
-                                        <Link href="/logout" className='text-decoration-none' style={{ color: "#070609" }}> <MenuItem onClick={handleClose}>Logout</MenuItem> </Link>
-                                    </Menu>
-                                </>
+                                        
+                                        <Menu
+                                            id="basic-menu"
+                                            anchorEl={anchorEl}
+                                            open={open}
+                                            onClose={handleClose}
+                                            MenuListProps={{
+                                            'aria-labelledby': 'basic-button',
+                                            }}
+                                            sx={{ marginTop: "10px" }}
+                                        >
+                                            <Link href="/dashboard" className='text-decoration-none' style={{ color: "#070609" }}> <MenuItem onClick={handleClose}>Dashboard</MenuItem> </Link>
+                                            <Link href="/logout" className='text-decoration-none' style={{ color: "#070609" }}> <MenuItem onClick={handleClose}>Logout</MenuItem> </Link>
+                                        </Menu>
+                                    </>
+                                ) 
                             ) }
                     </div>
                 </div>

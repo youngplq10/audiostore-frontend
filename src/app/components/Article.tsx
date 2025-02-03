@@ -1,11 +1,10 @@
 "use client"
 
-import { Alert, Button, Typography } from '@mui/material';
+import { Alert, Box, Button, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import WhatshotIcon from '@mui/icons-material/Whatshot';
 import Image from 'next/image';
 import { audiobook } from '@/app/interfaces/interfaces';
-import Loading from '@/app/components/Loading';
 import { removeSpaces } from '@/app/scripts/removeSpaces';
 import { getTopAudiobook } from '@/app/scripts/APICalls';
 
@@ -24,7 +23,7 @@ const Article = () => {
         fetchTopAudiobook();
     }, [])
 
-    if (loading) return <Loading />
+    if (process.env.NEXT_PUBLIC_RESOURCES == undefined) return <p>failed</p>
 
     return (
         <>
@@ -38,13 +37,23 @@ const Article = () => {
                         >
                             Top 1
                         </Alert>
-                        <Image
-                            src={"http://localhost:8080" + topAudiobook?.coverLink}
-                            width={300}
-                            height={400}
-                            className="rounded-4"
-                            alt="audiobook cover"
-                        />
+                        {
+                            loading ? (
+                                <Box
+                                    width={300}
+                                    height={400}
+                                    className="rounded-4 gradient"
+                                ></Box>
+                            ) : (
+                                <Image
+                                    src={process.env.NEXT_PUBLIC_RESOURCES + topAudiobook?.coverLink}
+                                    width={300}
+                                    height={400}
+                                    className="rounded-4"
+                                    alt="audiobook cover"
+                                />
+                            )
+                        }
                     </div>
                     <div className="col-10 col-lg-6 bd-dark mt-2">
                         <div className="row d-none d-lg-flex mb-2">
@@ -56,16 +65,29 @@ const Article = () => {
                         </div>
                         <div className="row mt-2">
                             <div className="col-12">
-                                <Typography variant="h2"> { topAudiobook?.title } </Typography>
-                                <Typography variant="body1">
-                                    { topAudiobook?.description }
-                                </Typography>
+                                { loading ? (
+                                    <div style={{ width: "100%", height: "40px", marginBottom: "10px" }} className='gradient'></div>
+                                ) : (
+                                    <Typography variant="h2"> { topAudiobook?.title } </Typography>
+                                ) }
+                                
+                                { loading ? (
+                                    <div style={{ width: "100%", height: "150px" }} className='gradient'></div>
+                                ) : (
+                                    <Typography variant='body1'> { topAudiobook?.description } </Typography>
+                                ) }
                             </div>
                         </div>
                         <div className="row mt-2">
                             <div className="col-12">
-                                <Button variant="contained" href={ "/audiobook?title=" + removeSpaces(topAudiobook?.title || "") }>Listen now</Button>
-                                <Button variant="outlined" className="ms-2" href='/genres'>Find more</Button>
+                                { loading ? (
+                                    <div style={{ width: "30%", height: "40px" }} className='gradient'></div>
+                                ) : (
+                                    <>
+                                        <Button variant="contained" href={ "/audiobook?title=" + removeSpaces(topAudiobook?.title || "") }>Listen now</Button>
+                                        <Button variant="outlined" className="ms-2" href='/genres'>Find more</Button>
+                                    </>
+                                ) }
                             </div>
                         </div>
                     </div>

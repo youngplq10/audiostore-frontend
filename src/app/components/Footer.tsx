@@ -2,7 +2,6 @@
 
 import { Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
-import Loading from '@/app/components/Loading';
 import { genre } from '@/app/interfaces/interfaces';
 import { removeSpaces } from '@/app/scripts/removeSpaces';
 import { getCategory } from '@/app/scripts/APICalls';
@@ -20,14 +19,14 @@ const Footer = () => {
         }
         fetchCategory()
     }, [])
-
-    if (loading) return <Loading />
     
     return(
         <>
             <div className='container-lg my-4'>
                 <div className='row'>
-                    {
+                    { loading ? (
+                        <div style={{ width: "100%", height: "40px", marginBottom: "10px" }} className='gradient'></div>
+                    ) : (
                         genres.map((genre, indexGenre) => {
                             return(
                                 <div className='col-auto my-2' key={indexGenre}>
@@ -37,7 +36,8 @@ const Footer = () => {
                                 </div>
                             )
                         })
-                    }
+                        
+                    ) }
 
                     <div className="row mt-2">
                         <div className='col-auto ms-auto'>

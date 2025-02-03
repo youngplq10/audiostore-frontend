@@ -4,7 +4,6 @@ import { Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import Image from 'next/image';
 import { audiobook } from '@/app/interfaces/interfaces';
-import Loading from '@/app/components/Loading';
 import { removeSpaces } from '@/app/scripts/removeSpaces';
 import { getAudiobooks } from '@/app/scripts/APICalls';
 
@@ -21,8 +20,6 @@ const MostTrending = () => {
         fetchMostTrending()
     }, [])
 
-    if (loading) return <Loading />
-
     return(
         <>
             <div className='container-lg pt-5 most-trending'>
@@ -32,28 +29,32 @@ const MostTrending = () => {
                     </div>
                 </div>
                 <div className='row justify-content-center mt-4'>
-                    { mostTrending.map((audiobook, audiobookIndex) => {
-                        return(
-                            <div className="col-4 col-md-2 text-center mt-2" key={audiobookIndex}>
-                                <a
-                                    href={"/audiobook?title=" + removeSpaces(audiobook.title)}
-                                    className="text-decoration-none"
-                                    style={{ textDecoration: 'none', color: 'inherit' }}
-                                >
-
-                                    <Image
-                                        src={process.env.NEXT_PUBLIC_RESOURCES +  audiobook.coverLink}
-                                        width={100}
-                                        height={100}
-                                        className='rounded-circle'
-                                        alt=''
-                                    />
-                                    <Typography variant='body1'> { audiobook.title } </Typography>
-                                    <Typography variant='subtitle1'> { audiobook.author } </Typography>
-                                </a>
-                            </div>
-                        )
-                    })}
+                    { loading ? (
+                        <div style={{ width: "100%", height: "150px", marginBottom: "10px" }} className='gradient'></div>
+                    ) : (
+                         mostTrending.map((audiobook, audiobookIndex) => {
+                            return(
+                                <div className="col-4 col-md-2 text-center mt-2" key={audiobookIndex}>
+                                    <a
+                                        href={"/audiobook?title=" + removeSpaces(audiobook.title)}
+                                        className="text-decoration-none"
+                                        style={{ textDecoration: 'none', color: 'inherit' }}
+                                    >
+    
+                                        <Image
+                                            src={process.env.NEXT_PUBLIC_RESOURCES +  audiobook.coverLink}
+                                            width={100}
+                                            height={100}
+                                            className='rounded-circle'
+                                            alt=''
+                                        />
+                                        <Typography variant='body1'> { audiobook.title } </Typography>
+                                        <Typography variant='subtitle1'> { audiobook.author } </Typography>
+                                    </a>
+                                </div>
+                            )
+                        })
+                    ) }
                 </div>
             </div>
         </>
