@@ -26,6 +26,8 @@ const Category = ( { numberOfGenres } : { numberOfGenres: number } ) => {
         fetchCategory();
     }, [numberOfGenres])
 
+    if (process.env.NEXT_PUBLIC_RESOURCES == undefined) return <></>
+
     return (
         <>
             { loading ? (

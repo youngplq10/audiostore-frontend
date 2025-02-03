@@ -95,6 +95,30 @@ export const loginUser = async (login: string, password: string) : Promise<boole
     }
 }
 
+export const registerUser = async (login: string, email: string, password: string) : Promise<boolean> => {
+    try {
+        const res = await axios.post(process.env.NEXT_PRIVATE_APIV1 + "/public/register", {
+            "username": login,
+            "email": email,
+            "password": password,
+            "role": "USER",
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        
+        if ( res.data[0] !== "<" ) {
+            setAuthToken(res.data)
+            return true;
+        } else {
+            return false;
+        }
+    } catch (err) {
+        return false
+        
+    }
+}
+
 export const getTopAudiobook = async () : Promise<audiobook> => {
     try {
         const res = await axios.get(process.env.NEXT_PRIVATE_APIV1 + "/public/audiobook/1984", {

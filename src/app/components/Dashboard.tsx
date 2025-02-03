@@ -23,7 +23,7 @@ const Dashboard = () => {
         fetchLikes()
     }, [])
 
-    if (process.env.NEXT_PUBLIC_RESOURCES == undefined) return <p>failed</p>
+    if (process.env.NEXT_PUBLIC_RESOURCES == undefined) return <></>
 
     return(
         <>
