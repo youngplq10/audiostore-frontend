@@ -67,3 +67,10 @@ export interface user{
         title: string,
     }[]
 }
+
+export interface review{
+    stars: number,
+    reviewBody: string,
+    audiobook: audiobook,
+    user: user
+}

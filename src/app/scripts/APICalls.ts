@@ -2,7 +2,7 @@
 
 import axios from "axios"
 import { getAllCookies, setAuthToken } from "@/app/scripts/Server"
-import { audiobook, genre, user } from "@/app/interfaces/interfaces"
+import { audiobook, genre, review, user } from "@/app/interfaces/interfaces"
 
 const emptyAudiobook = {
     added_at_date: new Date,
@@ -233,6 +233,16 @@ export const unSaveAudiobook = async (title: string) => {
                 'Authorization': 'Bearer ' + token,
             }
         })      
+    } catch (error) {
+        throw error
+    }
+}
+
+export const getReviewsOfAudiobook = async (title: string) : Promise<review[]> => {
+    try {
+        const res = await axios.get(process.env.NEXT_PRIVATE_APIV1 + "/public/reviews/" + title, {})
+
+        return res.data as review[]
     } catch (error) {
         throw error
     }
