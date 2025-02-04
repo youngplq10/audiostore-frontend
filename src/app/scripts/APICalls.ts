@@ -240,9 +240,30 @@ export const unSaveAudiobook = async (title: string) => {
 
 export const getReviewsOfAudiobook = async (title: string) : Promise<review[]> => {
     try {
-        const res = await axios.get(process.env.NEXT_PRIVATE_APIV1 + "/public/reviews/" + title, {})
+        const res = await axios.get(process.env.NEXT_PRIVATE_APIV1 + "/public/reviews/" + title, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
 
         return res.data as review[]
+    } catch (error) {
+        throw error
+    }
+}
+
+export const createReview = async (reviewBody: string, stars: number, audiobookTitle: string) : Promise<boolean> => {
+    try {
+        const { username, token } = await getAllCookies();
+
+        await axios.post(process.env.NEXT_PRIVATE_APIV1 + "/auth/review?audiobookTitle=" + audiobookTitle + "&reviewBody=" + reviewBody + "&stars=" + stars + "&username=" + username, {}, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token,
+            }
+        })
+
+        return true;
     } catch (error) {
         throw error
     }

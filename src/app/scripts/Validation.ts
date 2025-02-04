@@ -40,6 +40,14 @@ const existingUserSchema = Joi.object({
     }),
 })
 
+const review = Joi.object({
+    reviewBody: Joi.string().min(3).max(200).required().messages({
+        "string.empty": "Review can't be empty",
+        "string.min": "Review is too short. Minimum 3 characters",
+        "string.max": "Review is too long. Maximum 200 characters."
+    })
+})
+
 export const validateNewUser = (getUsername: string, getEmail: string, getPassword: string, getRepassword: string) : string => {
     const result = newUserSchema.validate({ username: getUsername, email: getEmail, password: getPassword, repassword: getRepassword});
 
@@ -53,6 +61,16 @@ export const validateNewUser = (getUsername: string, getEmail: string, getPasswo
 export const validateExistingUser = (getUsername: string, getPassword: string) : string => {
     const result = existingUserSchema.validate({ username: getUsername, password: getPassword });
 
+    if (result.error != null) {
+        return result.error.message;
+    }
+    
+    return "Success";
+}
+
+export const validateReview = (reviewBody: string) => {
+    const result = review.validate({ reviewBody: reviewBody });
+    
     if (result.error != null) {
         return result.error.message;
     }
