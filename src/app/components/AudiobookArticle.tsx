@@ -95,6 +95,7 @@ const AudiobookArticle = () => {
                                     height={400}
                                     className="rounded-4"
                                     alt="audiobook cover"
+                                    priority={true}
                                 />
                             )
                         }

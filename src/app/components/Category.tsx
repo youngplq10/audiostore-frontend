@@ -46,6 +46,13 @@ const Category = ( { numberOfGenres } : { numberOfGenres: number } ) => {
     
                             <div className="row mt-2 justify-content-center">
                                 {genre.audiobooks.slice(0, 4).map((audiobook, audiobook_index) => {
+                                    let stars = 0;
+                                    let howManyReviews = 0;
+                                    audiobook.reviews.map((review) => {
+                                        stars += review.stars;
+                                        howManyReviews++;
+                                    })
+
                                     return(
                                         <div className="col-auto my-2" key={audiobook_index}>
                                             <a
@@ -68,7 +75,13 @@ const Category = ( { numberOfGenres } : { numberOfGenres: number } ) => {
                                                 </Typography>
                                                 <Box display="flex" alignItems="center">
                                                     <StarIcon sx={{ marginRight: 0.5 }} />
-                                                    <Typography variant="body1">4.7</Typography>
+                                                    <Typography variant="body1"> { 
+                                                        stars === 0 ? (
+                                                            "-"
+                                                        ) : (
+                                                            Math.round((stars / howManyReviews) * 10) / 10
+                                                        )
+                                                    } </Typography>
                                                 </Box>
                                             </a>
                                         </div>

@@ -43,14 +43,7 @@ export interface audiobook{
         },
         name: string,
     },
-    reviews: {
-        id: {
-            timestamp: number,
-            date: Date
-        },
-        stars: number,
-        reviewBody: string
-    }[]
+    reviews: review[]
 }
 
 export interface user{

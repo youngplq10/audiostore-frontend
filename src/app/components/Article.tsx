@@ -17,7 +17,6 @@ const Article = () => {
             const res = await getTopAudiobook();
             setTopAudiobook(res)
             setLoading(false)
-            console.log(res)
         }
 
         fetchTopAudiobook();
@@ -51,6 +50,7 @@ const Article = () => {
                                     height={400}
                                     className="rounded-4"
                                     alt="audiobook cover"
+                                    priority={true}
                                 />
                             )
                         }

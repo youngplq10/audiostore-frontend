@@ -19,14 +19,7 @@ const emptyAudiobook = {
         },
         name: "",
     },
-    reviews: [{
-        id: {
-            timestamp: 0,
-            date: new Date,
-        },
-        stars: 0,
-        reviewBody: "",
-    }]
+    reviews: []
 } 
 
 const emptyGenre = {
@@ -193,6 +186,10 @@ export const getUserData = async () : Promise<user> => {
     try {
         const { username, token } = await getAllCookies();
 
+        if (username === undefined) {
+            return emptyUser
+        }
+
         const res = await axios.get(process.env.NEXT_PRIVATE_APIV1 + "/auth/user/" + username, {
             headers: {
                 'Content-Type': 'application/json',
@@ -210,14 +207,13 @@ export const saveAudiobook = async (title: string) => {
     try {
         const { username, token } = await getAllCookies();
 
-        const res = await axios.post(process.env.NEXT_PRIVATE_APIV1 + "/auth/like?username=" + username + "&title=" + title, {}, {
+        await axios.post(process.env.NEXT_PRIVATE_APIV1 + "/auth/like?username=" + username + "&title=" + title, {}, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + token,
             }
         })      
 
-        console.log(res)
     } catch (error) {
         throw error
     }
@@ -255,6 +251,10 @@ export const getReviewsOfAudiobook = async (title: string) : Promise<review[]> =
 export const createReview = async (reviewBody: string, stars: number, audiobookTitle: string) : Promise<boolean> => {
     try {
         const { username, token } = await getAllCookies();
+
+        console.log(username)
+        console.log(token)
+        console.log(audiobookTitle)
 
         await axios.post(process.env.NEXT_PRIVATE_APIV1 + "/auth/review?audiobookTitle=" + audiobookTitle + "&reviewBody=" + reviewBody + "&stars=" + stars + "&username=" + username, {}, {
             headers: {

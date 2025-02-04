@@ -18,7 +18,6 @@ const Reviews = () => {
         const fetchReviews = async () => {
             const res = await getReviewsOfAudiobook(title)
             setReviews(res)
-            console.log(res)
             setLoading(false)
         } 
         fetchReviews()
@@ -38,7 +37,7 @@ const Reviews = () => {
                                 <Typography variant='subtitle2'>
                                 {
                                     Array.from({ length: review.stars }, (_, i) => (
-                                        <StarIcon />
+                                        <StarIcon key={i} />
                                     ))
                                 }
                                 </Typography>

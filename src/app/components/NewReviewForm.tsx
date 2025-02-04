@@ -9,7 +9,7 @@ import { createReview } from '@/app/scripts/APICalls';
 
 const NewReviewForm = () => {
     const [reviewBody, setReviewBody] = useState("");
-    const [stars, setStars] = useState(1);
+    const [stars, setStars] = useState(0);
 
     const [reviewError, setReviewError] = useState("");
     const [reviewErrorState, setReviewErrorState] = useState(true);
@@ -42,17 +42,20 @@ const NewReviewForm = () => {
                     <form>
                         <label className='form-label'>How would you rate this audiobook?</label>
                         <input type='text' id='reviewBody' className='form-control' value={reviewBody} onChange={(e) => setReviewBody(e.target.value)} min={3} maxLength={200} />
-                        <div className="star-rating" onChange={(e) => setStars(e.target.value)}>
-                            <input type="radio" id="star5" name="rating" value="5" />
-                            <label htmlFor="star5" title="5 stars"><StarIcon /></label>
-                            <input type="radio" id="star4" name="rating" value="4" />
-                            <label htmlFor="star4" title="4 stars"><StarIcon /></label>
-                            <input type="radio" id="star3" name="rating" value="3" />
-                            <label htmlFor="star3" title="3 stars"><StarIcon /></label>
-                            <input type="radio" id="star2" name="rating" value="2" />
-                            <label htmlFor="star2" title="2 stars"><StarIcon /></label>
-                            <input type="radio" id="star1" name="rating" value="1" />
-                            <label htmlFor="star1" title="1 star"><StarIcon /></label>
+                        <div className="star-rating">
+                            {[5, 4, 3, 2, 1].map((value) => (
+                                <React.Fragment key={value}>
+                                    <input 
+                                        type="radio" 
+                                        id={`star${value}`} 
+                                        name="rating" 
+                                        value={value} 
+                                        checked={stars === value}
+                                        onChange={(e) => setStars(Number(e.target.value))}
+                                    />
+                                    <label htmlFor={`star${value}`} title={`${value} stars`}><StarIcon /></label>
+                                </React.Fragment>
+                            ))}
                         </div> <br />
                         <Button variant='contained' className='mt-2' onClick={handleSubmit}>Share</Button>
                     </form>

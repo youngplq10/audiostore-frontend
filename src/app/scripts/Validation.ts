@@ -12,7 +12,7 @@ const newUserSchema = Joi.object({
         "string.empty": "Email can't be empty.",
         "string.email": "Email is not valid."
     }),
-    password: Joi.string().min(3).max(20).pattern(new RegExp('^[a-zA-Z0-9]{3,30}$')).required().messages({
+    password: Joi.string().min(3).max(20).pattern(new RegExp('^[a-zA-Z0-9@#$%^&+=]{3,30}$')).required().messages({
         "string.empty": "Password can't be empty.",
         "string.pattern.base": "Password is not valid.",
         "string.min": "Password is too short. Minimum 3 characters.",
@@ -70,7 +70,7 @@ export const validateExistingUser = (getUsername: string, getPassword: string) :
 
 export const validateReview = (reviewBody: string) => {
     const result = review.validate({ reviewBody: reviewBody });
-    
+
     if (result.error != null) {
         return result.error.message;
     }

@@ -18,7 +18,6 @@ const Dashboard = () => {
 
             setUserData(res)
             setLoading(false)
-            console.log(res)
         }
         fetchLikes()
     }, [])
@@ -40,7 +39,6 @@ const Dashboard = () => {
 
                         <div className="row justify-content-center mt-2">          
                             { userData?.likedAudiobooks.map((audiobook, index) => {
-                                console.log(process.env.NEXT_PUBLIC_RESOURCES + audiobook.coverLink)
                                 return (
                                     <div className="col-auto my-2" key={index}>
                                         <Image
@@ -49,6 +47,7 @@ const Dashboard = () => {
                                             height={250}
                                             className="rounded-4"
                                             alt=""
+                                            priority={true}
                                         />
                                         <Typography variant="subtitle1" className="ms-1"> { audiobook.title } </Typography>
                                         <Typography variant="subtitle2" className="ms-1"> { audiobook.author } </Typography>
