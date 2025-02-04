@@ -268,3 +268,17 @@ export const createReview = async (reviewBody: string, stars: number, audiobookT
         throw error
     }
 }
+
+export const searchAudiobooks = async (search: string) : Promise<audiobook[]> => {
+    try {
+        const res = await axios.get(process.env.NEXT_PRIVATE_APIV1 + "/public/audiobook/search?search=" + search, {
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+
+        return res.data as audiobook[]
+    } catch (error) {
+        throw error
+    }
+}

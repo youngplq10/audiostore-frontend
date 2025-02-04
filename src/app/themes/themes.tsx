@@ -80,7 +80,7 @@ export const lightTheme = createTheme ({
               borderRadius: '10px',
               padding: '05px 20px 5px 20px'
             },
-          },
+        }
       ],
 
 

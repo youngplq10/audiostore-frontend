@@ -1,13 +1,22 @@
 "use client";
 
-import { Typography, TextField, Button, Menu, MenuItem } from '@mui/material';
+import { Typography, TextField, Button, Menu, MenuItem, Stack } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import HeadphonesIcon from '@mui/icons-material/Headphones';
 import Link from 'next/link';
 import { getIsAuthenticated } from '@/app/scripts/Server';
+import SearchIcon from '@mui/icons-material/Search';
+import { removeSpaces } from '@/app/scripts/removeSpaces';
+
 const Header = () => {
     const [isLogged, setIsLogged] = useState(false);
     const [loading ,setLoading] = useState(true);
+
+    const [search, setSearch] = useState("");
+
+    const handleSearch = () => {
+        window.location.href = "/search?q=" + removeSpaces(search);
+    }
 
     useEffect(() => {
         const checkAuth = async () => {
@@ -43,7 +52,10 @@ const Header = () => {
                 </div>
                 <div className="col-7" style={{ textAlign: 'right' }}>
                     <div style={{ display: 'inline-flex', alignItems: 'center' }}>
-                        <TextField id="search" label="Search" variant="outlined" size="small" />                     
+                        <Stack direction="row" gap={1}>
+                            <TextField id="search" label="Search" variant="outlined" size="small" value={search} onChange={(e) => setSearch(e.target.value)} /> 
+                            <Button variant='text' size='medium' onClick={handleSearch}><SearchIcon /></Button>
+                        </Stack>                    
                             { loading ? (
                                 <div style={{ width: "100%", height: "40px", marginLeft: "10px" }} className='gradient'></div>
                             ) : (

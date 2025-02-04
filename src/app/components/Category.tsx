@@ -79,7 +79,11 @@ const Category = ( { numberOfGenres } : { numberOfGenres: number } ) => {
                                                         stars === 0 ? (
                                                             "-"
                                                         ) : (
-                                                            Math.round((stars / howManyReviews) * 10) / 10
+                                                            (Math.round((stars / howManyReviews) * 10) / 10) % 1 !== 0 ? (
+                                                                Math.round((stars / howManyReviews) * 10) / 10
+                                                            ) : (
+                                                                Math.round((stars / howManyReviews) * 10) / 10 + ".0"
+                                                            )
                                                         )
                                                     } </Typography>
                                                 </Box>
