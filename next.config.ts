@@ -13,19 +13,6 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
-  typescript: {
-    ignoreBuildErrors: true,
-  },
-  // Force dynamic rendering
-  experimental: {
-    missingSuspenseWithCSRError: false,
-  },
-  // Disable static optimization
-  staticPageGenerationTimeout: 0,
-  generateEtags: false,
 };
 
 export default nextConfig;
