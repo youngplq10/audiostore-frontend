@@ -6,9 +6,9 @@ const nextConfig: NextConfig = {
     unoptimized: true,
     remotePatterns: [
       {
-        protocol: 'http',
-        hostname: process.env.NEXT_PUBLIC_HOSTNAME || 'localhost',
-        port: process.env.NEXT_PUBLIC_PORT || '8080',
+        protocol: '**',
+        hostname: '**',
+        port: '*',
         pathname: '/**',
       },
     ],
