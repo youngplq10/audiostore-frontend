@@ -124,14 +124,14 @@ const AudiobookArticle = () => {
                                      isLogged ? (
                                         !saved ? (
                                             <>
-                                                <audio controls style={{ backgroundColor: "#7D49CA", borderRadius: 10, width: "100%" }}>
+                                                <audio controls style={{ backgroundColor: "", borderRadius: 10, width: "100%" }}>
                                                     <source src={process.env.NEXT_PUBLIC_RESOURCES + audiobook?.audioLink} type="audio/mpeg" />
                                                 </audio>
                                                 <Button variant='contained' onClick={handleSaveButton}>Save to library</Button>
                                             </>
                                         ) : (
                                             <>
-                                                <audio controls style={{ backgroundColor: "#7D49CA", borderRadius: 10, width: "100%" }}>
+                                                <audio controls style={{ backgroundColor: "", borderRadius: 10, width: "100%" }}>
                                                     <source src={process.env.NEXT_PUBLIC_RESOURCES + audiobook?.audioLink} type="audio/mpeg" />
                                                 </audio>
                                                 <Button variant='contained' onClick={handleSaveButton}>Remove from library</Button>
