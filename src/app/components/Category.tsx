@@ -20,7 +20,7 @@ const Category = ( { numberOfGenres } : { numberOfGenres: number } ) => {
     useEffect(() => {
         const fetchCategory = async () => {
             const res = await getCategory();
-            setGenres(res.slice(0, numberOfGenres))
+            setGenres(res.slice(2, numberOfGenres))
             setLoading(false)
         }
         fetchCategory();
